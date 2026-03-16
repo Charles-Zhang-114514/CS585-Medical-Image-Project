@@ -1,0 +1,32 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Spyder / IDE
+.spyproject/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# DATASETS (very important)
+data/raw/
+data/processed/
+
+# Experiment outputs
+outputs/
+
+# Large files
+*.zip
+*.tar
+*.gz
+
+# Model weights
+*.pth
+*.pt
+*.ckpt
+
+# Jupyter
+.ipynb_checkpoints/
