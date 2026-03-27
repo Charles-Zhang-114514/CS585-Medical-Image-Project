@@ -1,155 +1,157 @@
-CS585 Project
-Reliability of Chest X-ray Model Confidence under Cross-Dataset Deployment
+# CS585 Project — Chest X-ray Model Confidence Under Cross-Dataset Deployment
 
-This project studies the reliability of deep learning model confidence in medical imaging when deployed across datasets.
+> **Reliability of Deep Learning Model Confidence in Medical Imaging**  
+> Boston University · CS585 Image & Video Computing
 
-In particular, we evaluate whether model confidence remains reliable when transferring from CheXpert to MIMIC-CXR, and whether temperature scaling can improve calibration under dataset shift.
+---
 
-Research Goal
+## Overview
 
-Deep learning models often achieve high performance on internal datasets but may behave unpredictably when deployed on data from different hospitals.
+This project investigates whether deep learning model confidence remains reliable
+when transferring from **CheXpert** to **MIMIC-CXR**, and whether **temperature scaling**
+can improve calibration under dataset shift.
 
-This project investigates:
+Deep learning models often achieve high performance on internal datasets but may behave
+unpredictably when deployed on data from different hospitals. This project jointly analyzes
+predictive performance and confidence calibration under cross-dataset deployment.
 
-How model confidence behaves under cross-dataset deployment
+---
 
-Whether simple calibration methods such as temperature scaling improve reliability
+## Research Goals
 
-Target Diseases
+- Analyze how model confidence behaves under **cross-dataset deployment**
+- Evaluate whether simple calibration methods (e.g., **temperature scaling**) improve reliability
+- Compare reliability behavior across diseases with different prevalence patterns
+  (e.g., Pneumothorax vs. Pleural Effusion)
 
-The experiments focus on two chest X-ray pathologies:
+---
 
-Pneumothorax
+## Target Diseases
 
-Pleural Effusion
+Experiments focus on two chest X-ray pathologies, chosen for their contrasting prevalence in CheXpert:
 
-These were chosen because they represent different prevalence patterns in CheXpert:
+| Disease | Prevalence in CheXpert |
+|---|---|
+| **Pneumothorax** | Relatively rare |
+| **Pleural Effusion** | Relatively common |
 
-Pneumothorax → relatively rare
+---
 
-Pleural Effusion → relatively common
+## Datasets
 
-Datasets
+> ⚠️ Datasets are **not included** in this repository due to size and license restrictions.
 
-This project uses two public chest X-ray datasets.
+### CheXpert (small version)
+- Source: Stanford ML Group
+- Kaggle mirror: https://www.kaggle.com/datasets/ashery/chexpert
+- Size: approximately **10–11 GB**
+- Role: **Training / validation / in-domain evaluation**
 
-CheXpert
+> This project uses **CheXpert-small** for computational efficiency while maintaining
+> sufficient scale for evaluating model reliability and calibration.
 
-Stanford ML Group
-224,316 chest radiographs from 65,240 patients.
+### MIMIC-CXR
+- Source: MIT + Beth Israel Deaconess Medical Center
+- 377,110 images corresponding to 227,835 radiographic studies
+- Version: **v2.1.0** (published July 23, 2024)
+- Access: [PhysioNet](https://physionet.org/content/mimic-cxr/2.1.0/) — requires credentialed account + signed DUA
+- Role: **Cross-dataset evaluation**
 
-Used for:
+---
 
-training / in-domain evaluation
-MIMIC-CXR
+## Model
 
-MIT + Beth Israel Deaconess Medical Center
-Large-scale chest X-ray dataset.
+We train and evaluate two CNN-based classifiers:
 
-Used for:
+| Model | Source |
+|---|---|
+| **ResNet-50** | torchvision |
+| **DenseNet-121** | [TorchXRayVision](https://github.com/mlmed/torchxrayvision) |
 
-cross-dataset evaluation
+Including two architectures allows us to examine whether confidence miscalibration
+under domain shift is model-specific or consistent across different CNN designs.
 
-Note:
-Datasets are not included in this repository due to size and license restrictions.
+Relevant pathology indices for DenseNet-121:
 
-Planned Pipeline
+| Pathology | Index |
+|---|---|
+| Pneumothorax | 3 |
+| Effusion | 7 |
 
-The experimental pipeline consists of the following stages:
+---
 
-1️⃣ Train or run pretrained model on CheXpert
+## Experimental Pipeline
 
-2️⃣ Evaluate performance on CheXpert (in-domain)
+```
+1️⃣  Train ResNet-50 & DenseNet-121 on CheXpert
+2️⃣  Evaluate in-domain performance on CheXpert test set
+3️⃣  Evaluate cross-domain performance on MIMIC-CXR test set
+4️⃣  Measure reliability metrics:
+        • AUC
+        • Expected Calibration Error (ECE)
+        • Brier Score
+        • Confidence on incorrect predictions
+5️⃣  Apply Temperature Scaling (learned on CheXpert validation set)
+6️⃣  Re-evaluate across four settings:
+        (1) Uncalibrated model — in-domain
+        (2) Uncalibrated model — cross-domain
+        (3) Temperature-scaled model — cross-domain
+        (4) Uncalibrated model — stronger OOD samples in MIMIC-CXR
+7️⃣  Grad-CAM visualization on high-confidence failure cases
+```
 
-3️⃣ Evaluate performance on MIMIC-CXR (cross-dataset)
+---
 
-4️⃣ Measure reliability metrics
+## Project Structure
 
-AUC
-
-Expected Calibration Error (ECE)
-
-Brier Score
-
-Confidence on incorrect predictions
-
-5️⃣ Apply Temperature Scaling
-
-6️⃣ Re-evaluate calibration and reliability
-
-Model
-
-Baseline model:
-
-DenseNet121 (TorchXRayVision)
-
-The model outputs predictions for 18 chest pathologies.
-
-Relevant indices:
-
-Pneumothorax → index 3
-Effusion → index 7
-Project Structure
+```
 CS585-Project/
+├── src/
+│   ├── data/              # Dataset loaders
+│   ├── models/            # Model definitions
+│   ├── eval/              # Evaluation metrics
+│   ├── calibration/       # Calibration methods
+│   └── interpretability/  # Grad-CAM tools
+├── scripts/               # Environment checks, dataset inspection, test scripts
+├── data/
+│   ├── raw/               # Local datasets (not tracked by git)
+│   └── processed/
+├── outputs/
+│   ├── figures/
+│   ├── logs/
+│   └── checkpoints/
+└── notebooks/
+```
 
-src/
-    data/              dataset loaders
-    models/            model definitions
-    eval/              evaluation metrics
-    calibration/       calibration methods
-    interpretability/  Grad-CAM tools
+---
 
-scripts/
-    environment checks
-    dataset inspection
-    test scripts
+## Current Progress
 
-data/
-    raw/               local datasets (not tracked by git)
-    processed/
+**Completed**
+- [x] Environment setup
+- [x] TorchXRayVision inference test
+- [x] CheXpert metadata inspection
+- [x] Project repository initialization
 
-outputs/
-    figures/
-    logs/
-    checkpoints/
+**Next Steps**
+- [ ] Implement PyTorch Dataset for CheXpert & MIMIC-CXR
+- [ ] Build DataLoader pipeline
+- [ ] Train ResNet-50 and DenseNet-121 on CheXpert
+- [ ] Implement ECE, Brier Score, and calibration metrics
+- [ ] Apply temperature scaling
+- [ ] Cross-dataset evaluation on MIMIC-CXR
+- [ ] Grad-CAM visualization of failure cases
 
-notebooks/
-Current Progress
+---
 
-Completed:
+## Requirements
 
-Environment setup
+```bash
+pip install torch torchvision torchxrayvision numpy pandas scikit-learn matplotlib
+```
 
-TorchXRayVision inference test
+---
 
-CheXpert metadata inspection
+## Authors
 
-Project repository initialization
-
-Next steps:
-
-Implement PyTorch Dataset for CheXpert
-
-Build DataLoader pipeline
-
-Run batch inference
-
-Implement calibration metrics
-
-Cross-dataset evaluation
-
-Requirements
-
-Main libraries:
-
-torch
-torchvision
-torchxrayvision
-numpy
-pandas
-scikit-learn
-matplotlib
-Authors
-
-Boston University
-CS585 Project# CS585-Project
+Boston University · CS585 Image & Video Computing
