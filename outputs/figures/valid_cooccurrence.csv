@@ -1,0 +1,3 @@
+,Pleural Effusion = 1,Pleural Effusion != 1
+Pneumothorax = 1,2,6
+Pneumothorax != 1,65,161
