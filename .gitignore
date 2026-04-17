@@ -7,3 +7,13 @@ CheXpert/
 # Ignore Python cache
 __pycache__/
 *.pyc
+# Spyder project files
+.spyproject/
+
+# Data (never commit raw datasets)
+data/
+
+# Model checkpoints (too large for git)
+outputs/checkpoints/
+*.pth
+*.pt

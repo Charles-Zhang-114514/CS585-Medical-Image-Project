@@ -14,6 +14,8 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from sklearn.metrics import roc_auc_score
 
+
+from src.models.classifiers import get_resnet50, get_densenet121
 from src.data.chexpert_loader import CheXpertDataset
 from src.models.classifiers import get_resnet50
 
@@ -56,12 +58,13 @@ print(f"Train: {len(train_ds)} samples")
 print(f"Val:   {len(val_ds)} samples")
 
 # ---- model ----
-model = get_resnet50(num_classes=2, pretrained=True)
+model = get_densenet121(num_classes=2, pretrained=True)
+#model = get_resnet50(num_classes=2, pretrained=True)
 model = model.to(DEVICE)
 
 # load saved checkpoint
-model.load_state_dict(torch.load(str(PROJECT_ROOT / "outputs" / "checkpoints" / "resnet50_best.pth")))
-print("Loaded checkpoint")
+#model.load_state_dict(torch.load(str(PROJECT_ROOT / "outputs" / "checkpoints" / "resnet50_best.pth")))
+#print("Loaded checkpoint")
 
 
 # ---- loss and optimizer ----
@@ -70,8 +73,8 @@ optimizer = Adam(model.parameters(), lr=LR)
 
 # ---- training loop ----
 best_auc = 0.0
-
-for epoch in range(3, NUM_EPOCHS + 1):
+for epoch in range(1, NUM_EPOCHS + 1):
+#for epoch in range(3, NUM_EPOCHS + 1):
     # -- train --
     model.train()
     train_loss = 0.0
@@ -120,7 +123,8 @@ for epoch in range(3, NUM_EPOCHS + 1):
     # -- save best model --
     if mean_auc > best_auc:
         best_auc = mean_auc
-        torch.save(model.state_dict(), str(PROJECT_ROOT / "outputs" / "checkpoints" / "resnet50_best.pth"))
+        torch.save(model.state_dict(), str(PROJECT_ROOT / "outputs" / "checkpoints" / "densenet121_best.pth"))
+        #torch.save(model.state_dict(), str(PROJECT_ROOT / "outputs" / "checkpoints" / "resnet50_best.pth"))
         print(f"  -> Saved best model (AUC={best_auc:.4f})")
 
 print(f"\nDone! Best Val Mean AUC: {best_auc:.4f}")
