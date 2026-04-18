@@ -11,7 +11,7 @@ __pycache__/
 .spyproject/
 
 # Data (never commit raw datasets)
-data/
+/data/
 
 # Model checkpoints (too large for git)
 outputs/checkpoints/
