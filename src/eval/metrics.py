@@ -1,4 +1,8 @@
+import warnings
+from functools import partial
+
 import numpy as np
+from sklearn.metrics import roc_auc_score
 
 
 def compute_ece(y_true, y_prob, n_bins=15):
@@ -61,3 +65,71 @@ def compute_reliability_diagram_data(y_true, y_prob, n_bins=15):
         "bin_confidences": bin_confidences,
         "bin_counts": bin_counts,
     }
+
+
+# ---------------------------------------------------------------------------
+# Bootstrap confidence intervals
+# ---------------------------------------------------------------------------
+
+def bootstrap_metric(metric_fn, preds, labels, n_iter=1000,
+                     confidence=0.95, seed=42):
+    """Compute a bootstrap confidence interval for any scalar metric.
+
+    Args:
+        metric_fn: callable(preds, labels) -> float
+        preds:     1-D numpy array of predicted probabilities
+        labels:    1-D numpy array of ground-truth 0/1 labels
+        n_iter:    number of bootstrap resamples
+        confidence: CI level (0.95 → 95 %)
+        seed:      random seed for reproducibility
+
+    Returns:
+        dict with keys 'point', 'lower', 'upper', 'std'
+    """
+    point = float(metric_fn(preds, labels))
+
+    rng = np.random.RandomState(seed)
+    n = len(preds)
+    scores = []
+    for _ in range(n_iter):
+        idx = rng.randint(0, n, size=n)
+        try:
+            scores.append(metric_fn(preds[idx], labels[idx]))
+        except ValueError:
+            # e.g. roc_auc_score fails when a resample has only one class
+            continue
+
+    scores = np.array(scores)
+    scores = scores[np.isfinite(scores)]
+    alpha = 1.0 - confidence
+    lower = float(np.percentile(scores, 100 * alpha / 2))
+    upper = float(np.percentile(scores, 100 * (1 - alpha / 2)))
+
+    return {"point": point, "lower": lower, "upper": upper,
+            "std": float(scores.std())}
+
+
+try:
+    from sklearn.exceptions import UndefinedMetricWarning
+except ImportError:
+    UndefinedMetricWarning = UserWarning
+
+
+def _safe_auc(preds, labels):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=UndefinedMetricWarning)
+        return roc_auc_score(labels, preds)
+
+
+def auc_with_ci(preds, labels, **kwargs):
+    """ROC-AUC with bootstrap confidence interval."""
+    return bootstrap_metric(_safe_auc, preds, labels, **kwargs)
+
+
+def ece_with_ci(preds, labels, n_bins=15, **kwargs):
+    """ECE with bootstrap confidence interval."""
+    fn = partial(compute_ece, n_bins=n_bins)
+    return bootstrap_metric(
+        lambda p, l: fn(l, p),
+        preds, labels, **kwargs,
+    )
