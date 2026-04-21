@@ -1,0 +1,10 @@
+{
+  "resnet": {
+    "Pneumothorax": 0.8048750758171082,
+    "Pleural Effusion": 0.7456581592559814
+  },
+  "densenet": {
+    "Pneumothorax": 0.820396363735199,
+    "Pleural Effusion": 0.7643714547157288
+  }
+}
