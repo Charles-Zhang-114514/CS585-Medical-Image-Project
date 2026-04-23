@@ -1,6 +1,7 @@
 import json
 import numpy as np
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 from src.eval.metrics import compute_reliability_diagram_data
 
@@ -11,6 +12,8 @@ ANALYSIS_DIR = REPO_ROOT / "outputs" / "analysis"
 PRED_DIR = REPO_ROOT / "outputs" / "predictions"
 
 RESULTS_PATH = ANALYSIS_DIR / "cross_domain_results.json"
+
+FIGURES_DIR=REPO_ROOT/"figures"
 
 
 # Constants
@@ -137,6 +140,39 @@ def get_probs_and_labels(data, setting, model, pathology):
     return probs[mask], labels[mask]
 
 
+
+
+#figure 
+def plot(d, p):
+    r=d["results"]
+    f, x=plt.subplots(2,5,figsize=(20,9))
+    for i in range(len(MODELS)):
+        for j in range(len(SETTINGS)):
+            m=MODELS[i]
+            s=SETTINGS[j]
+        
+            l=x[i,j]
+            prob, y=get_probs_and_labels(d,s, m, p)
+            c=compute_reliability_diagram_data(y, prob,n_bins=N_BINS)
+            ma=c["bin_counts"]>0
+            l.bar(c["bin_confidences"][ma],c["bin_accuracies"][ma],width=1.0/N_BINS,color="lightcoral")
+            l.plot([0,1],[0,1],'--',color='black')
+            l.grid(True,linestyle="--",alpha=0.5)
+            e=r[s][m][p]["ece"]["point"]
+            l.set_title(f"{m} — {s}\nECE={e:.3f}")
+            l.set_xlim(0,1)
+            l.set_ylim(0,1)
+    plt.tight_layout()
+    return f
+
+
+
+
+
+
+
+
+
 # Main computation
 def main():
     data = load_data()
@@ -190,6 +226,15 @@ def main():
 
     print("\n=== DONE ===")
     print("ALL MATCH:", all_ok)
+
+    # save fig
+    FIGURES_DIR.mkdir(parents=True,exist_ok=True)
+    for p in PATHOLOGIES:
+        fig=plot(data,p)
+        name=p.lower().replace(" ","_")
+        fig.savefig(FIGURES_DIR/ f"reliability_{name}.png",dpi=300)
+        plt.close(fig)
+    
 
 
 if __name__ == "__main__":
