@@ -27,7 +27,9 @@ OUT_DIR = REPO_ROOT / "outputs" / "tables"
 SETTINGS = [
     "in_domain",
     "cross_domain_all",
-    "cross_domain_ts",
+    # cross_domain_ts excluded: AUC is invariant to monotonic transformations
+    # (Temperature Scaling scales logits, preserving sample ranking).
+    # TS effect is shown in calibration_table.tex instead.
     "cross_domain_shared",
     "cross_domain_extra",
 ]
