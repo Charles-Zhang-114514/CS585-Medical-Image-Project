@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\caption{Calibration metrics on the full cross-domain MIMIC-CXR test set, before and after temperature scaling (TS). Lower is better for ECE, Brier, and confidence on incorrect predictions. Values are point estimates with 95\% bootstrap confidence intervals.}
+\label{tab:calibration_ts}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|c|c|c|}
+\toprule
+Model & Pathology & Calibration & ECE [95\% CI] & Brier [95\% CI] & Conf. on Incorrect [95\% CI] \\
+\midrule
+\multirow{4}{*}{ResNet-50} & \multirow{2}{*}{Pneumothorax} & Uncal. & 0.022 [0.018, 0.035] & 0.049 [0.042, 0.057] & 0.833 [0.807, 0.858] \\
+ &  & +TS & 0.028 [0.023, 0.041] & 0.050 [0.042, 0.059] & 0.864 [0.839, 0.889] \\
+\cmidrule(lr){2-6}
+ & \multirow{2}{*}{Pleural Effusion} & Uncal. & 0.181 [0.163, 0.200] & 0.182 [0.171, 0.193] & 0.721 [0.708, 0.734] \\
+ &  & +TS & 0.181 [0.162, 0.201] & 0.187 [0.174, 0.199] & 0.764 [0.750, 0.779] \\
+\midrule
+\multirow{4}{*}{DenseNet-121} & \multirow{2}{*}{Pneumothorax} & Uncal. & 0.049 [0.042, 0.060] & 0.057 [0.049, 0.065] & 0.791 [0.765, 0.818] \\
+ &  & +TS & 0.046 [0.037, 0.058] & 0.057 [0.049, 0.066] & 0.819 [0.792, 0.845] \\
+\cmidrule(lr){2-6}
+ & \multirow{2}{*}{Pleural Effusion} & Uncal. & 0.100 [0.084, 0.119] & 0.159 [0.149, 0.169] & 0.702 [0.690, 0.715] \\
+ &  & +TS & 0.105 [0.089, 0.125] & 0.162 [0.150, 0.174] & 0.741 [0.728, 0.756] \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\caption{Per-pathology AUC with 95\% bootstrap confidence intervals across all evaluation settings. $N$ is the number of test samples (reported as \textit{Pneumothorax\,/\,Pleural Effusion} when the two pathologies use different subsets).}
+\label{tab:auc_cross_domain}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|c|c|c|}
+\toprule
+Setting & Model & Pneumothorax AUC [95\% CI] & Pleural Effusion AUC [95\% CI] & $N$ \\
+\midrule
+\multirow{2}{*}{In-domain (CheXpert)} & ResNet-50 & 0.914 [0.809, 0.989] & 0.932 [0.897, 0.963] & 202 \\
+ & DenseNet-121 & 0.935 [0.872, 0.989] & 0.926 [0.889, 0.959] & 202 \\
+\midrule
+\multirow{2}{*}{Cross-domain: all} & ResNet-50 & 0.836 [0.795, 0.875] & 0.855 [0.837, 0.873] & 1816 / 1702 \\
+ & DenseNet-121 & 0.810 [0.763, 0.852] & 0.853 [0.835, 0.871] & 1816 / 1702 \\
+\midrule
+\multirow{2}{*}{Cross-domain: all + TS} & ResNet-50 & 0.836 [0.795, 0.875] & 0.855 [0.837, 0.873] & 1816 / 1702 \\
+ & DenseNet-121 & 0.810 [0.763, 0.852] & 0.853 [0.835, 0.871] & 1816 / 1702 \\
+\midrule
+\multirow{2}{*}{Cross-domain: shared-only} & ResNet-50 & 0.769 [0.627, 0.888] & 0.860 [0.799, 0.916] & 147 / 139 \\
+ & DenseNet-121 & 0.793 [0.675, 0.898] & 0.822 [0.749, 0.888] & 147 / 139 \\
+\midrule
+\multirow{2}{*}{Cross-domain: extra-pathology} & ResNet-50 & 0.839 [0.794, 0.882] & 0.855 [0.834, 0.873] & 1669 / 1563 \\
+ & DenseNet-121 & 0.804 [0.751, 0.852] & 0.856 [0.837, 0.875] & 1669 / 1563 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
