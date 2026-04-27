@@ -1,13 +1,18 @@
 import json
+import sys
 import numpy as np
 from pathlib import Path
 import matplotlib.pyplot as plt
+
+# Make src/ importable when run from terminal
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
 
 from src.eval.metrics import compute_reliability_diagram_data
 
 
 # Paths
-REPO_ROOT = Path(__file__).resolve().parents[1]
+# REPO_ROOT = Path(__file__).resolve().parents[1]
 ANALYSIS_DIR = REPO_ROOT / "outputs" / "analysis"
 PRED_DIR = REPO_ROOT / "outputs" / "predictions"
 
