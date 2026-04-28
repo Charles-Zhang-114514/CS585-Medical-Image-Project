@@ -165,7 +165,7 @@ pip install torch torchvision numpy pandas scikit-learn matplotlib pillow grad-c
 ## Team Contributions
 
 **Haoran Zhang** (lead) — `zhr114@bu.edu`
-- Research design and project leadership; sole author of proposal v1 and v2
+- Research design and project leadership; author of proposal v1 and v2
 - Dataset implementations (`CheXpertDataset`, `MIMICCXRDataset`); 
   cross-domain feasibility validation
 - Baseline training (ResNet-50, DenseNet-121); MIMIC-CXR credentialed data access
