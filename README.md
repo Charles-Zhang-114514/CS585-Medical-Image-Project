@@ -3,6 +3,7 @@
 > **When Should We Trust Medical Image Models?**  
 > Evaluating Confidence Reliability under Cross-Dataset Shift  
 > Boston University · CS585 Image & Video Computing · Spring 2026
+> 
 > Instructor: Andrew Wood
 ---
 
