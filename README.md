@@ -62,7 +62,7 @@ After filtering (test split → local existence → frontal view → labeled stu
 the MIMIC evaluation set contains **1,835 samples**, with subset tags for downstream analysis:
 - `shared_only`: 149 samples (only target pathologies present)
 - `extra_pathology`: 1,686 samples (with co-occurring pathologies)
-
+ 
 ### Models
 
 | Model | Pretrain | Use |
@@ -180,7 +180,7 @@ pip install torch torchvision numpy pandas scikit-learn matplotlib pillow grad-c
 * Training curve visualizations (loss + AUC vs. epoch)
 * Reliability diagrams: data validation (matched against `cross_domain_results.json`) and plotting (4 settings × 2 models per pathology)
 
-**Nuo Chen** and **Mingyang Li** — `ceno@bu.edu`, `limingy@bu.edu`
+**Mingyang Li** and **Nuo Chen** — `limingy@bu.edu`, `ceno@bu.edu`
 
 * Core evaluation metrics (`metrics.py`): ECE, Brier, confidence-on-incorrect, reliability diagram bins
 * Bootstrap confidence interval extension (`bootstrap_metric`, `auc_with_ci`, `ece_with_ci`) with edge-case handling
