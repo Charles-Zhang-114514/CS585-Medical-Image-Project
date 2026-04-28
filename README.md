@@ -3,7 +3,7 @@
 > **When Should We Trust Medical Image Models?**  
 > Evaluating Confidence Reliability under Cross-Dataset Shift  
 > Boston University · CS585 Image & Video Computing · Spring 2026
-
+> Instructor: Andrew Wood
 ---
 
 ## Overview
@@ -163,7 +163,7 @@ pip install torch torchvision numpy pandas scikit-learn matplotlib pillow grad-c
 
 ## Team Contributions
 
-**Charles Zhang** (lead) — `zhr114@bu.edu`
+**Haoran Zhang** (lead) — `zhr114@bu.edu`
 - Research design and project leadership; sole author of proposal v1 and v2
 - Dataset implementations (`CheXpertDataset`, `MIMICCXRDataset`); 
   cross-domain feasibility validation
@@ -173,22 +173,18 @@ pip install torch torchvision numpy pandas scikit-learn matplotlib pillow grad-c
 - Grad-CAM mechanism analysis; identification of DenseNet's spatial prior shortcut
 - Team coordination and code review
 
-**Sarah Lam** — `sarahl@bu.edu`
+**Sarah Lam** and **Yuting Lin**— `sarahl@bu.edu`, `linyt@bu.edu`
 - CheXpert exploratory data analysis
 - Training curve visualizations (loss + AUC vs. epoch)
 - Reliability diagrams plotting (4 settings × 2 models per pathology)
-
-**Yuting Lin** — `linyt@bu.edu`
 - CheXpert exploratory data analysis (joint with Sarah)
 - Reliability diagram data validation (matched against `cross_domain_results.json`)
 
-**Nuo Chen** — `ceno@bu.edu`
+**Nuo Chen** and **Mingyang Li** `ceno@bu.edu` ,`limingy@bu.edu`
 - Core evaluation metrics (`metrics.py`): ECE, Brier, confidence-on-incorrect, 
   reliability diagram bins
 - Bootstrap confidence interval extension (`bootstrap_metric`, `auc_with_ci`, `ece_with_ci`)
 - LaTeX results tables generation
-
-**Mingyang Li** — `limingy@bu.edu`
 - Core evaluation metrics (joint with Nuo)
 - Bootstrap CI testing and edge-case handling (single-class resamples, warning suppression)
 - LaTeX tables (joint with Nuo)
