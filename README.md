@@ -89,12 +89,12 @@ candidate selection) operates on stored `.npy` artifacts.
 3. Verify MIMIC subset feasibility             →  scripts/check_mimic_feasibility.py
 4. Cross-domain inference                      →  scripts/eval_cross_domain.py
 5. Compute metrics with bootstrap CIs          →  scripts/analyze_cross_domain.py
-6. Settings: in_domain, cross_domain_all, cross_domain_ts,
-7. cross_domain_shared, cross_domain_extra
-8. Metrics: AUC, ECE, Brier, conf-on-incorrect (all with 95% CI)
-9. Reliability diagrams                        →  scripts/plot_reliability_diagrams.py
-10. Grad-CAM mechanism analysis                 →  scripts/gradcam_analysis.py
-11. LaTeX tables for paper                      →  scripts/generate_latex_tables.py
+       Settings: in_domain, cross_domain_all, cross_domain_ts,
+                 cross_domain_shared, cross_domain_extra
+       Metrics: AUC, ECE, Brier, conf-on-incorrect (all with 95% CI)
+6. Reliability diagrams                        →  scripts/plot_reliability_diagrams.py
+7. Grad-CAM mechanism analysis                 →  scripts/gradcam_analysis.py
+8. LaTeX tables for paper                      →  scripts/generate_latex_tables.py
 ```
 ---
 
@@ -173,21 +173,17 @@ pip install torch torchvision numpy pandas scikit-learn matplotlib pillow grad-c
 - Grad-CAM mechanism analysis; identification of DenseNet's spatial prior shortcut
 - Team coordination and code review
 
-**Sarah Lam** and **Yuting Lin**— `sarahl@bu.edu`, `linyt@bu.edu`
-- CheXpert exploratory data analysis
-- Training curve visualizations (loss + AUC vs. epoch)
-- Reliability diagrams plotting (4 settings × 2 models per pathology)
-- CheXpert exploratory data analysis (joint with Sarah)
-- Reliability diagram data validation (matched against `cross_domain_results.json`)
+**Sarah Lam** and **Yuting Lin** — `sarahl@bu.edu`, `linyt@bu.edu`
 
-**Nuo Chen** and **Mingyang Li** `ceno@bu.edu` ,`limingy@bu.edu`
-- Core evaluation metrics (`metrics.py`): ECE, Brier, confidence-on-incorrect, 
-  reliability diagram bins
-- Bootstrap confidence interval extension (`bootstrap_metric`, `auc_with_ci`, `ece_with_ci`)
-- LaTeX results tables generation
-- Core evaluation metrics (joint with Nuo)
-- Bootstrap CI testing and edge-case handling (single-class resamples, warning suppression)
-- LaTeX tables (joint with Nuo)
+* CheXpert exploratory data analysis
+* Training curve visualizations (loss + AUC vs. epoch)
+* Reliability diagrams: data validation (matched against `cross_domain_results.json`) and plotting (4 settings × 2 models per pathology)
+
+**Nuo Chen** and **Mingyang Li** — `ceno@bu.edu`, `limingy@bu.edu`
+
+* Core evaluation metrics (`metrics.py`): ECE, Brier, confidence-on-incorrect, reliability diagram bins
+* Bootstrap confidence interval extension (`bootstrap_metric`, `auc_with_ci`, `ece_with_ci`) with edge-case handling
+* LaTeX results tables generation
 
 ---
 
