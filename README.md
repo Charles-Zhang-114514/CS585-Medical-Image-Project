@@ -2,9 +2,12 @@
 
 > **When Should We Trust Medical Image Models?**  
 > Evaluating Confidence Reliability under Cross-Dataset Shift  
+> Haoran Zhang, Sarah Lam, Yuting Lin, Nuo Chen, Mingyang Li  
 > Boston University · CS585 Image & Video Computing · Spring 2026
 > 
 > Instructor: Andrew Wood
+>
+> 📄 **[Paper (PDF)](paper/When_Should_We_Trust_Medical_Image_Models.pdf)** · 🖥️ [Slides](presentation/slides.pdf)
 ---
 
 ## Overview
