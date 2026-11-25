@@ -7,7 +7,7 @@
 > 
 > Instructor: Andrew Wood
 >
-> 📄 **[Paper (PDF)](paper/When_Should_We_Trust_Medical_Image_Models.pdf)** · 🖥️ [Slides](presentation/slides.pdf)
+> 📄 **[arXiv:2611.29955](https://arxiv.org/abs/2611.29955)** · [PDF](paper/When_Should_We_Trust_Medical_Image_Models.pdf) · 🖥️ [Slides](presentation/slides.pdf)
 ---
 
 ## Overview
